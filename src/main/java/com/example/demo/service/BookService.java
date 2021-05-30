@@ -27,33 +27,18 @@ public class BookService {
 	
 	public Book getById(Integer id) {
 		// Dùng Optional để tránh NULL
-		Optional<Book> opt = _bookRepo.findById(id.toString());
+		Optional<Book> opt = _bookRepo.findById(id);
 		if (opt.isPresent()) { // Trường hợp tồn tại bản ghi
 			return opt.get(); // Dùng hàm get() để parse về kiểu Book
 		}
 		return null;
 	}
 	
-	public int add(Book book) {
+	public int save(Book book) {
 		try {
-			// Thêm thì đối tượng không có ID
-			// PK không tồn tại thì thêm mới
-			_bookRepo.save(book);
-			return CommonConst.SUCCESS;
-		} catch (Exception ex) {
-			return CommonConst.ERROR;
-		}
-	}
-	
-	public int update(Book book) {
-		try {
-			// Update thì đối tượng có ID
-			// PK mà tồn tại thì Update
-			// Lấy đối tượng ra
-			// Set lại thuộc tính
-			// Lưu lại
-			_bookRepo.save(book);
-			return CommonConst.SUCCESS;
+			// Id tồn tại thì UPDATE
+			// Không tồn tại thì INSERT
+			return _bookRepo.save(book).getId();
 		} catch (Exception ex) {
 			return CommonConst.ERROR;
 		}
@@ -61,10 +46,36 @@ public class BookService {
 	
 	public int deleteById(Integer deleteId) {
 		try {
-			_bookRepo.deleteById(deleteId.toString());
+			_bookRepo.deleteById(deleteId);
 			return CommonConst.SUCCESS;
 		} catch (Exception ex) {
 			return CommonConst.ERROR;
 		}
 	}
+	
+//	public int add(Book book) {
+//		try {
+//			// Thêm thì đối tượng không có ID
+//			// PK không tồn tại thì thêm mới
+//			_bookRepo.save(book);
+//			return CommonConst.SUCCESS;
+//		} catch (Exception ex) {
+//			return CommonConst.ERROR;
+//		}
+//	}
+	
+//	public int update(Book book) {
+//		try {
+//			// Update thì đối tượng có ID
+//			// PK mà tồn tại thì Update
+//			// Lấy đối tượng ra
+//			// Set lại thuộc tính
+//			// Lưu lại
+//			_bookRepo.save(book);
+//			return CommonConst.SUCCESS;
+//		} catch (Exception ex) {
+//			return CommonConst.ERROR;
+//		}
+//	}
+
 }
