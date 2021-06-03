@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import com.example.demo.model.Book;
@@ -18,6 +21,11 @@ public class BookService {
 	
 	public List<Book> getAll() {
 		return _bookRepo.findAll();
+	}
+	
+	public Page<Book> getPages(int currentPage, int pageSize) {
+		Pageable page = PageRequest.of(currentPage, pageSize);
+		return _bookRepo.findAll(page);
 	}
 	
 	public List<Book> getByName(String name) {

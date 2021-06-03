@@ -2,6 +2,8 @@ package com.example.demo.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -15,7 +17,9 @@ public interface IBookRepository
 	 * Viết lại hàm tìm tất cả
 	 */
 	@Override
-    List<Book> findAll();
+	List<Book> findAll();
+	
+    Page<Book> findAll(Pageable page);
 	
 	/*
 	 * Tìm kiếm theo tên cách 1

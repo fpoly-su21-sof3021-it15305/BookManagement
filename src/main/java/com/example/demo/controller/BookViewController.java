@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.model.Book;
 import com.example.demo.model.BookType;
@@ -28,6 +30,29 @@ public class BookViewController {
 		List<Book> books = _bookService.getAll();
 		model.addAttribute("books", books);
 		return "book/list";
+	}
+	
+	private final int PAGE_SIZE = 2;
+	
+	@GetMapping("/pagination")
+	public String getListPageWithPagination(Model model,
+			@RequestParam(defaultValue = "1") int currentPage) {
+		
+		// trường hợp nhỏ hơn 0
+		// lấy trang đầu tiên
+		if (currentPage < 0) 
+			currentPage = 1;
+		Page<Book> page = _bookService
+				.getPages(currentPage - 1, PAGE_SIZE);
+		
+		// trường hợp lớn hơn tổng trang
+		// lấy trang cuối cùng
+		if (page.getTotalPages() < currentPage)
+			page = _bookService
+				.getPages(page.getTotalPages() - 1, PAGE_SIZE);
+		
+		model.addAttribute("page", page);
+		return "book/listWithPagination";
 	}
 	
 	@GetMapping("/{id}")
