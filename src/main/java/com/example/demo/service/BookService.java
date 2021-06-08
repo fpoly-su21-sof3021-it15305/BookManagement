@@ -46,7 +46,7 @@ public class BookService {
 		try {
 			// Id tồn tại thì UPDATE
 			// Không tồn tại thì INSERT
-			return _bookRepo.save(book).getId();
+			return _bookRepo.save(book).getBookId();
 		} catch (Exception ex) {
 			return CommonConst.ERROR;
 		}
