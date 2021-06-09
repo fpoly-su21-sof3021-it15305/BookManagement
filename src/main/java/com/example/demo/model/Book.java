@@ -20,7 +20,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "Book")
-@SQLDelete(sql = "UPDATE Book SET is_deleted = 1 WHERE Id=?")
+@SQLDelete(sql = "UPDATE Book SET is_deleted = 1 WHERE book_id=?")
 @Where(clause = "is_deleted=0")
 public class Book {
 	

@@ -7,10 +7,10 @@
 </head>
 <body>
 	<a href="/book">Back to List</a>
-	<h2>Detail of Book - ${book.id}</h2>
+	<h2>Detail of Book - ${book.bookId}</h2>
 	<form:form method="PUT" action="/book/update" modelAttribute="book">
 		<table>
-			<form:input type="hidden" path="id" value="${book.id}" />
+			<form:input type="hidden" path="bookId" value="${book.bookId}" />
 			<tr>
 				<td><form:label path="name">Name</form:label></td>
 				<td><form:input path="name" value="${book.name}" /></td>

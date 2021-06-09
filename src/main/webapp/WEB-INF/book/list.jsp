@@ -23,7 +23,7 @@
             <tbody>
                 <c:forEach items="${books}" var="book">
                     <tr>
-                        <td>${book.id}</td>
+                        <td>${book.bookId}</td>
                         <td>${book.type}</td>
                         <td>${book.name}</td>
                         <td>${book.author}</td>
@@ -36,8 +36,8 @@
                         <td>${book.quantity}</td>
                         <td>${book.price}</td>
                         <td>
-                        	<a href="/book/${book.id}">Detail</a>
-                        	<a href="/book/delete/${book.id}">Delete</a>
+                        	<a href="/book/${book.bookId}">Detail</a>
+                        	<a href="/book/delete/${book.bookId}">Delete</a>
                         </td>
                     </tr>
                 </c:forEach>
