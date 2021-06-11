@@ -59,6 +59,7 @@ public class OrderService {
 					.bookId(book.getBookId())
 					.build();
 				detail.setId(detailId);
+				detail.setPrice(book.getPrice());
 				_orderDetailRepo.save(detail);
 			}
 			

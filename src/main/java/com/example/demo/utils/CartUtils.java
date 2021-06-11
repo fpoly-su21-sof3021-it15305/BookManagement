@@ -18,4 +18,8 @@ public class CartUtils {
 		}
 		return cart;
 	}
+	
+	public static void removeCartInSession(HttpServletRequest request) {
+		request.getSession().removeAttribute("myCart");
+	}
 }

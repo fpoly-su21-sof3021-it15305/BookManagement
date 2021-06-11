@@ -1,5 +1,10 @@
 package com.example.demo.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,13 +12,18 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.model.Book;
 import com.example.demo.model.Cart;
+import com.example.demo.model.Order;
+import com.example.demo.model.OrderDetail;
 import com.example.demo.service.BookService;
+import com.example.demo.service.OrderService;
 import com.example.demo.utils.CartUtils;
 import com.example.demo.utils.CommonConst;
 
@@ -23,6 +33,8 @@ public class ShopViewController {
 
 	@Autowired
 	private BookService _bookService;
+	@Autowired
+	private OrderService _orderService;
 	
 	@GetMapping
 	public String getBooks(Model model,
@@ -57,4 +69,28 @@ public class ShopViewController {
 		return "shop/cart";
 	}
 	
+	/* @PostMapping("/buy") */
+	@GetMapping("/buy")
+	public String buy(HttpServletRequest request, Model model) throws Exception {
+		Cart cart = CartUtils.getCartInSession(request);
+		Order order = new Order();
+		// Đưa thông tin cartDetail về Order
+		List<OrderDetail> details = new ArrayList<OrderDetail>();
+		cart.getCartDetails().forEach((bookId,quantity) -> {
+			Book book = _bookService.getById(bookId);
+			OrderDetail detail = OrderDetail.builder()
+					.book(book) // sản phẩm
+					.quantity(quantity) // số lượng
+					.build();
+			details.add(detail);
+		});
+		
+		order.setOrderDetails(details);
+		// Thêm order
+		_orderService.newOrder(order);
+		
+		CartUtils.removeCartInSession(request);
+		model.addAttribute("order", order);
+		return "shop/order";
+	}
 }

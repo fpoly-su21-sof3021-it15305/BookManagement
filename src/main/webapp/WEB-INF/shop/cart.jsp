@@ -8,7 +8,9 @@
     <body>
     	<h2>Cart Info</h2> 
     	<a href="/shop">back</a>
-        <table border=1>
+    	<%-- <form:form method="POST" action="/shop/buy" 
+    		modelAttribute="cartDetails"> --%>
+    		<table border=1>
             <thead>
                 <tr>
                     <th>Book Id</th>
@@ -16,7 +18,8 @@
                 </tr>
             </thead>
             <tbody>
-                <c:forEach items="${cartDetails}" var="cartDetail">
+                <c:forEach items="${cartDetails}" 
+                	var="cartDetail">
                     <tr>
                         <td>${cartDetail.key}</td>
                         <td>${cartDetail.value}</td>
@@ -24,5 +27,8 @@
                 </c:forEach>
             </tbody>
         </table>
+        <a href="/shop/buy">Buy</a>
+<%--         <input type="submit" value="Buy" />
+    	</form:form> --%>
     </body>
 </html>
