@@ -67,4 +67,8 @@ public class OrderService {
 		// ...
 		return 1;
 	}
+
+	public Iterable<Order> getAll() {
+		return _orderRepo.findAll();
+	}
 }

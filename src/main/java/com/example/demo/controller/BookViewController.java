@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.demo.model.Book;
 import com.example.demo.model.BookType;
 import com.example.demo.service.BookService;
+import com.example.demo.utils.CommonConst;
 
 @Controller
 @RequestMapping("/book")
@@ -32,8 +33,6 @@ public class BookViewController {
 		return "book/list";
 	}
 	
-	private final int PAGE_SIZE = 2;
-	
 	@GetMapping("/pagination")
 	public String getListPageWithPagination(Model model,
 			@RequestParam(defaultValue = "1") int currentPage) {
@@ -43,13 +42,13 @@ public class BookViewController {
 		if (currentPage < 0) 
 			currentPage = 1;
 		Page<Book> page = _bookService
-				.getPages(currentPage - 1, PAGE_SIZE);
+				.getPages(currentPage - 1, CommonConst.PAGE_SIZE);
 		
 		// trường hợp lớn hơn tổng trang
 		// lấy trang cuối cùng
 		if (page.getTotalPages() < currentPage)
 			page = _bookService
-				.getPages(page.getTotalPages() - 1, PAGE_SIZE);
+				.getPages(page.getTotalPages() - 1, CommonConst.PAGE_SIZE);
 		
 		model.addAttribute("page", page);
 		return "book/listWithPagination";
